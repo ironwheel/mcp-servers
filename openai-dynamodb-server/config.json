@@ -1,0 +1,16 @@
+{
+    "ddb_defs": [
+        {
+            "name": "foundations.participants",
+            "description": "Contains student enrollment information including courses, payment status, and personal details"
+        },
+        {
+            "name": "events",
+            "description": "Contains course information including name, description, instructors, and schedule"
+        },
+        {
+            "name": "pools",
+            "description": "Contains eligibility pool criteria for the events"
+        }
+    ]
+}

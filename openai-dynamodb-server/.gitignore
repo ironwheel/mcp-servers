@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Compiled TypeScript output
+dist/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Mac system files
+.AppleDouble
+.LSOverride
+
+# Docker artifacts (if any are generated locally)
+*.tar
