@@ -1,6 +1,6 @@
-# MCP DynamoDB Server
+# MCP AWS DynamoDB Query Server
 
-This is a Model Context Protocol (MCP) server that allows natural language queries over Amazon DynamoDB tables. It loads data into memory, infers schemas, and uses an AI model (via OpenAI) to transform user prompts into structured queries.
+This is a Model Context Protocol (MCP) server that allows natural language queries against AWS DynamoDB tables. It loads data into memory, infers schemas, and uses an AI model (via OpenAI) to transform user prompts into structured queries.
 
 ## Features
 
@@ -20,7 +20,8 @@ This is a Model Context Protocol (MCP) server that allows natural language queri
 
 ### Environment Variables (.env)
 
-Create a `.env` file in the parent directory with the following:
+Create a `.env` file in the parent directory with the following fields.
+Note that the Cognito Identity Pool ID must be attached to an IAM policy that allows "dynamodb:Scan" of the tables described in the config.json.
 
 ```env
 AWS_REGION=us-east-1
@@ -32,7 +33,7 @@ MAX_RECORD_MEMORY_BYTES=50000000
 
 ### Table Configuration (config.json)
 
-This file should be placed in the parent directory:
+This file should be placed in the parent directory. It contains a list of the names and descriptions of the DynamoDB tables the server has access to.
 
 ```json
 {
@@ -96,4 +97,4 @@ The prompt is sent to OpenAI with augmented metadata to return a structured quer
 
 ## License
 
-MIT License © 2025 Robert E. Taylor, Extropic Systems
+This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
