@@ -1,12 +1,12 @@
 # MCP AWS DynamoDB Query Server
 
-This is a Model Context Protocol (MCP) server that allows natural language queries against AWS DynamoDB tables. It loads data into memory, infers schemas, and uses an AI model (via OpenAI) to transform user prompts into structured queries.
+This is a Model Context Protocol (MCP) server that allows natural language queries against AWS DynamoDB tables. It loads data into memory, infers schemas, and uses an AI model (via OpenAI) to transform user prompts into structured queries. The code is schema-agnostic. The examples happen to use a student database, but there's nothing in the code that is aware of that.
 
 ## Features
 
 - Loads DynamoDB tables into memory
-- Infers JSON schema from sample records
-- Converts English prompts into structured queries using OpenAI
+- Infers JSON schema from sample records for each table
+- Converts English prompts into structured queries using OpenAI. This could be any AI API.
 - Supports filtering, sorting, limiting, and counting records
 - Implements `query_table` tool via MCP for interactive use
 
@@ -44,12 +44,37 @@ This file should be placed in the parent directory. It contains a list of the na
 }
 ```
 
-## Running
+## Testing
 
 ```bash
-npm install
+# Create a .env file with your AWS and OpenAI API creds
+# Modify config.json to contain the names of the DynamoDB tables and an accurate description of each table's contents
 npm run build
-npm start
+npx @modelcontextprotocol/inspector node dist/index.js
+# Copy the test URL to a browser tab
+# Click the Connect button. You should see a notify as each table begins loading, a notify when all tables are loaded, and finally a server booted notify.
+# Click the "List Tools" button and the click "query_table". Enter a prompt related to any of the tables you configured, such as "How many records are in the xxxxxx table?"
+# Note that your NL prompt will be turned into a structured query which the server will execute on the target table. The results of the query are returned to the client.
+```
+
+## Claude Desktop Configuration
+
+Add the following to...  
+macOS: ~/Library/Application Support/Claude/claude_desktop_config.json  
+Windows: %APPDATA%\Claude\claude_desktop_config.json  
+
+```json
+{
+    "mcpServers": {
+        "dynamodb": {
+            "command": "node",
+            "args": [
+                "~/path/to/openai-dynamodb-server/dist/index.js"
+            ]
+        }
+    }
+}
+
 ```
 
 ## Docker Support
@@ -93,7 +118,7 @@ Add the following to `.vscode/mcp.json`:
   - "How many students are enrolled in chemistry?"
   - "List the first 10 names from the events table."
 
-The prompt is sent to OpenAI with augmented metadata to return a structured query object, which is then executed against local in-memory data.
+The prompt is sent to OpenAI with augmented metadata describing the schema so that a JSON structured query object is returned, which is then executed against local in-memory data.
 
 ## License
 
